@@ -1,10 +1,5 @@
 
-# Grupa9-AtomicFitness
-## Tema: Aplikacija za Fitness
-## Članovi:
-* Tarik Đogić 
-* Ajla Višća 
-* Dinija Seferović 
+# AtomicFitness App
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/64585658/111088792-35575000-8529-11eb-9afe-ae09d0769559.jpg" width="550">
