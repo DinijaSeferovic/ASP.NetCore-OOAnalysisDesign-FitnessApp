@@ -1,0 +1,82 @@
+﻿@model IEnumerable<AtomicFitness.Models.Recept>
+
+@{
+    ViewData["Title"] = "Recipes";
+}
+
+<h1>Recipes</h1>
+
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-secondary">Create New</a>
+    </p>
+}
+
+<div style="margin-bottom: 10px">
+    @using (Html.BeginForm("Index", "Recept", FormMethod.Get))
+    {
+        <div style="margin-bottom: 10px">
+            <b style="margin-right: 10px">Search By:</b>
+            @Html.RadioButton("SearchBy", "Naziv", new { @class = "form-check-input" }) <span style="margin-right: 10px">Name</span>
+            @Html.RadioButton("SearchBy", "Sastojci", new { @class = "form-check-input" }) <span style="margin-right: 10px">Ingredients</span>
+        </div>
+        @Html.TextBox("Search", "", new { @class = "form-control me-sm-2", @style = "display: inline-block; width: 30%" })
+        <input type="submit" value="Search" class="btn btn-outline-light my-2 my-sm-0" />
+        <br />
+        <small class="form-text text-muted">For more than one ingredient use comma as a delimiter</small>
+    }
+</div>
+
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="3">No rows match search criteria</td>
+    </tr>
+
+}
+else
+{
+
+    <div class="container cont">
+        <div class="row justify-content-md-center gap-xxl-5 flex-fill">
+            @foreach (var item in Model)
+            {
+                <div class="col d-flex mb-4">
+                    <div class="card border-2 border-primary h-100">
+                        <div class="imgparent">
+
+                            <img src="@item.Link" class="card-img-top" alt="Image">
+                            <div class="fa fa-plus img-overlay"></div>
+                        </div>
+                        <div class="card-body flex-fill flex-column d-flex">
+                            <h5 class="card-title text-center">@Html.DisplayFor(modelItem => item.Naziv)</h5>
+                            <div style="margin: 1rem;">
+                                <table class="table align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <td>Ingredients:</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Sastojci)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-auto">
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.ReceptID" class="btn btn-outline-warning">Edit</a>
+                                }
+                                <a asp-action="Details" asp-route-id="@item.ReceptID" class="btn btn-outline-info">Details</a>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.ReceptID" class="btn btn-outline-danger">Delete</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
